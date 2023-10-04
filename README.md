@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a repository for reproducing an issue with latest Next.js v13.5.
 
-## Getting Started
+When using Next.js as an imported module `import next from "next";` and running the dev server with providing a configuration object, the configuration object is not respected.
 
-First, run the development server:
+```javascript
+import next from "next";
+// ...
+// ...
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+next({
+  dev: true,
+  dir: nextRoot,
+  conf: {
+    env: {
+      customKey: "my-value",
+    },
+  },
+});
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Folder structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* `next-root` - a Next.js app using App Router
+* `next-root-pages` - a Next.js app using Pages Router
+* `scirpts/next-run.mjs` - the runner using `next` module
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## How to reproduce the issue
+1. Clone the repo
+2. Run `npm run dev:custom` - running the dev server for `next-root`
+   Alternatively, run `npm run dev:custom:pages` - running the dev server for `next-root-pages`
+3. Open browser at `localhost:9988`
+4. Observe `The value of customKey is: ` string is empty without containing any env key.
+5. Uncomment the `env` configuration from `next.config.js` and rerun the command in step 2.
+6. Observe `The value of customKey is: my-value` string is printing the env key `my-value`.

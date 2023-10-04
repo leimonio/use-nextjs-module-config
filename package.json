@@ -6,22 +6,26 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:custom": "node scripts/next-run.mjs",
+    "dev:custom:pages": "node scripts/next-run.mjs --pages"
   },
   "dependencies": {
+    "next": "13.5.4",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "13.5.4"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
+    "eslint": "^8",
+    "eslint-config-next": "13.5.4",
+    "http": "^0.0.1-security",
     "postcss": "^8",
     "tailwindcss": "^3",
-    "eslint": "^8",
-    "eslint-config-next": "13.5.4"
+    "typescript": "^5",
+    "url": "^0.11.3"
   }
 }
